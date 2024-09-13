@@ -1,5 +1,6 @@
 # DB 생성 (경로는 main에서 전달 받음)
 import os
+import pandas as pd
 import sqlite3
 import json
 
@@ -18,6 +19,7 @@ def load_json(file_path):
 def read_json_files(directory):
     question = []
     answer = []
+
     # 디렉토리와 하위 디렉토리를 탐색
     for root, dirs, files in os.walk(directory):
         for file in files:
@@ -27,8 +29,8 @@ def read_json_files(directory):
                 # JSON 파일 읽기
                 data = load_json(file_path)
                 # json파일에서 question / answer 쌍으로 추출
-                question.append(data['question']["comment"])
-                answer.append(data['answer']["comment"])
+                question.append(data['context_summary']["summary_q"])
+                answer.append(data['context_summary']["summary_a"])
                 
     return question, answer
 
@@ -52,7 +54,7 @@ def create_db(path):
 
 def insert_data(conn, questions, answers):
     if len(questions) != len(answers):
-        print("warnning")
+        print("The number of questions and the number of answers are different.")
         return 
     
     cursor = conn.cursor()
@@ -62,24 +64,28 @@ def insert_data(conn, questions, answers):
 
 
 def get_db_data(conn):
-    cursor = conn.cursor()
-    cursor.execute("SELECT question, answer FROM qa_pairs")
+    query = "SELECT question, answer FROM qa_pairs"
+    df = pd.read_sql_query(query, conn)
 
-    # qa_pairs = cursor.fetchall() 전체 데이터가 적으면 더 빠른 방법
-
-    # for row in cursor: # 데이터가 양이 많으면 직접 처리하는 게 메모리 효율이 좋음
-    #     question, answer = row # 각 행 처리
-
+    return df
+    
+    # 전체 데이터가 적으면 더 빠른 방법
+    # cursor = conn.cursor()
+    # cursor.execute("SELECT question, answer FROM qa_pairs")
+    # qa_pairs = cursor.fetchall() 
+ 
 
 if __name__ == "__main__":
     # 경로 설정
     current_dir = os.path.dirname(os.path.abspath(__file__))
     root = os.path.dirname(current_dir)
-    dir_path = os.path.join(root, "data", "Sample", "02.라벨링데이터", "국정감사", "16")  #원하는 경로 (일단 한정해 두었음)
+    dir_path = os.path.join(root, "data", "Sample", "02.라벨링데이터")  #원하는 경로 (일단 한정해 두었음)
     db_path = os.path.join(root, "data", "qa_database.db") # 경로를 어디에 놓을까? (일단 data 모으는 곳에 두긴 했어)
 
     questions, answers = read_json_files(dir_path) # 각각 질문 답변 데이터 수집
 
     db = create_db(db_path)
     insert_data(db, questions, answers)
-    get_db_data(db)
+    data = get_db_data(db)
+    print(len(data)) # 4400
+    print(data.head(1)["question"])

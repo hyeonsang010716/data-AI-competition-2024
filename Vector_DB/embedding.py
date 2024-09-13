@@ -27,11 +27,3 @@ def search_qa(query, index, k=5):
     # indices는 query와 가장 가까운 값의 인덱스 값
     distances, indices = index.search(np.array(query_vector).astype('float32'), k)
     return indices
-
-
-if __name__ == "__main__":
-    results = search_qa('그러니까 내가 아까 얘기한 부산지검의 명예를 회복하기 위해서 해야 된다는 얘기이고 그 이전의 지검 검사장도 이 지역사회에서 유착되었다는 설도 여기에서는 널리 유포되어 있었습니다. 그런데다가 최근에 두 지검 검사장이 이 사건의 변호인으로 선임되고 하니까 점점 부산지검은 다대ㆍ만덕사건에 관한 한 처음부터 수사를 못 하게 되어 있는 사건이다, 내가 아까 말한 대로 국정감사 때마다 요구하고 추궁하고 또 감사원 감사가 착수되고 하니까 할 수 없이 등 떠밀려서 마지못해서 하는 것 아니냐 하는 것입니다.  수사진은 왜 교체했습니까?')
-
-    print(f"question: {results[0][0]}")
-    print(f"answer: {results[0][1]}")
-    print(f"distance: {results[0][2]}") # 쿼리 벡터와 찾은 질문 벡터 사이의 거리 (유사도)
