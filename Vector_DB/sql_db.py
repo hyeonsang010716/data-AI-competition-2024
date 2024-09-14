@@ -106,6 +106,13 @@ def get_db_data(conn):
     # qa_pairs = cursor.fetchall() 
  
 
+def search_db_data(text, conn):
+    query = f"SELECT * FROM qa_pairs WHERE keyword LIKE '%{text}%';"
+    df = pd.read_sql_query(query, conn)
+    
+    return df
+
+
 if __name__ == "__main__":
     # 경로 설정
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -122,3 +129,6 @@ if __name__ == "__main__":
     data = get_db_data(db)
     print(len(data)) # 35200 총 데이터의 양 (dataframe)
     print(data.iloc[0])
+
+    keyword_search = search_db_data("향상", db)
+    print(keyword_search)
