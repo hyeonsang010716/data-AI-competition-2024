@@ -12,4 +12,7 @@ typing-inspect==0.9.0
 faiss-cpu==1.8.0
 chromadb
 streamlit
+langchain_chroma
+unstructured
+#magic 오류 -> pip install git+https://github.com/julian-r/python-magic.git
 #pip install -r requirements.txt
