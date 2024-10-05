@@ -17,12 +17,19 @@ data_path = os.path.join(current_dir, "data")
 current_dir = os.path.dirname(current_dir) 
 assets_path = os.path.join(current_dir, "assets")
 
+text = ""
 for root, dirs, files in os.walk(data_path):
     for file in files:
         if file.endswith(".json"):
             file_path = os.path.join(root, file)
             data = load_json(file_path)
-            name = data['committee_name']
-            assets_file_path = os.path.join(assets_path, name + '.txt')
-            with open(assets_file_path, "a") as txt_file:
-                txt_file.write(data['context_summary']["summary_a"] + "\n")
+            text += (data['context_summary']["summary_q"] + "\n")
+            text += data['context_summary']["summary_a"]
+            text += "\n\n\n"
+
+
+name = "total_text"
+assets_file_path = os.path.join(assets_path, name + '.txt')
+with open(assets_file_path, "a") as txt_file:
+    txt_file.write(text)
+
