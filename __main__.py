@@ -38,8 +38,7 @@ if prompt := st.chat_input("What is up?"):
     with st.chat_message("user"): # user가 보낸 응답이라는 의미
         st.write(prompt)
 
-    answer = llm.invoke({"input" : prompt})
-
+    answer = llm.invoke({"input" : prompt})["output"]
     print(answer)
 
     with st.chat_message("assistant"):
