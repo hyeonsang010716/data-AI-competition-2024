@@ -12,6 +12,7 @@ from langchain.agents import create_tool_calling_agent
 from langchain.agents import AgentExecutor
 from Vector_DB.create_db import create_index
 from RAG.prompts import sys_prompt
+from RAG.history import create_with_message_history
 class Agent:
     def __init__(self):
         self.store = {}
@@ -24,14 +25,14 @@ class Agent:
             search_type="mmr",
             search_kwargs={"k": 5},
         )
-        model = AzureChatOpenAI(
-            model="gpt-4o",
-            temperature=0.3,
-        )
-        # model = ChatOpenAI(
-        #     model="gpt-4o",
-        #     temperature=0.3,
-        # )
+        #model = AzureChatOpenAI(
+        #    model="gpt-4o",
+        #    temperature=0.3,
+        #)
+        model = ChatOpenAI(
+             model="gpt-4o",
+             temperature=0.3,
+         )
 
         multi_query_prompt = PromptTemplate.from_template(
             """You are an AI language model assistant. 
@@ -74,17 +75,18 @@ class Agent:
         return [tool]
 
     def __agent_init(self):
-        model = AzureChatOpenAI(
+        #model = AzureChatOpenAI(
+        #    model="gpt-4o",
+        #    temperature=0.3,
+        #)
+        model = ChatOpenAI(
             model="gpt-4o",
             temperature=0.3,
         )
-        # model = ChatOpenAI(
-        #     model="gpt-4o",
-        #     temperature=0.3,
-        # )
         prompt_template = ChatPromptTemplate.from_messages(
             [
                 ("system", sys_prompt),
+                MessagesPlaceholder(variable_name="history"),
                 ("human", "{input}"),
                 MessagesPlaceholder(variable_name="agent_scratchpad"),
             ]
@@ -93,7 +95,7 @@ class Agent:
         agent_executor = AgentExecutor(
             agent=agent, tools=self.tool, verbose=True, max_iterations=10
         )
-        return agent_executor
+        return create_with_message_history(agent_executor)
     
     def get_agent(self):
         return self.agent

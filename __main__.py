@@ -38,7 +38,9 @@ if prompt := st.chat_input("What is up?"):
     with st.chat_message("user"): # user가 보낸 응답이라는 의미
         st.write(prompt)
 
-    answer = llm.invoke({"input" : prompt})["output"]
+    session_id = "user_unique_session_id"
+
+    answer = llm.invoke({"input" : prompt}, config={"configurable": {"session_id": session_id}})["output"]
     print(answer)
 
     with st.chat_message("assistant"):
