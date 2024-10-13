@@ -24,14 +24,14 @@ class Agent:
             search_type="mmr",
             search_kwargs={"k": 5},
         )
-        model = AzureChatOpenAI(
-            model="gpt-4o",
-            temperature=0.3,
-        )
-        # model = ChatOpenAI(
+        # model = AzureChatOpenAI(
         #     model="gpt-4o",
         #     temperature=0.3,
         # )
+        model = ChatOpenAI(
+            model="gpt-4o",
+            temperature=0.3,
+        )
 
         multi_query_prompt = PromptTemplate.from_template(
             """You are an AI language model assistant. 
@@ -74,14 +74,14 @@ class Agent:
         return [tool]
 
     def __agent_init(self):
-        model = AzureChatOpenAI(
-            model="gpt-4o",
-            temperature=0.3,
-        )
-        # model = ChatOpenAI(
+        # model = AzureChatOpenAI(
         #     model="gpt-4o",
         #     temperature=0.3,
         # )
+        model = ChatOpenAI(
+            model="gpt-4o",
+            temperature=0.3,
+        )
         prompt_template = ChatPromptTemplate.from_messages(
             [
                 ("system", sys_prompt),
