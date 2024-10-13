@@ -4,6 +4,8 @@ from langchain_chroma import Chroma
 import os
 import pickle
 from langchain.schema import Document
+from langchain_community.embeddings import GPT4AllEmbeddings
+from langchain_huggingface.embeddings import HuggingFaceEndpointEmbeddings
 # from langchain_core.documents import Document as langchain_Document
 # from langchain.text_splitter import CharacterTextSplitter
 
@@ -29,7 +31,11 @@ def load_learning_materials():
     return learning_materials
 
 def create_index():
-    embeddings =  OllamaEmbeddings(model="nomic-embed-text") # 임베딩 모델
+    model = "intfloat/multilingual-e5-large-instruct"
+
+    embeddings = HuggingFaceEndpointEmbeddings(
+        model=model,
+    )
     directory_path = "./Vector_DB/chromadb"
     if os.path.exists(directory_path):
         print("존재하는 임베딩 세팅")
