@@ -12,8 +12,9 @@ llm = st.session_state.llm
 
 # 대답 방식
 def response_generator(response):
-    for word in response.split():
-        yield word + " "
+    for word in response.split("\n"):
+        print(word)
+        yield word + "\n"
         time.sleep(0.05)
 
 
@@ -44,7 +45,7 @@ if prompt := st.chat_input("What is up?"):
     print(answer)
 
     with st.chat_message("assistant"):
-        response = st.write_stream(response_generator(answer))
+        response = st.write(response_generator(answer))
     
     # 메시지 기록에 담기
     st.session_state.messages.append({"role": "assistant", "content": response})
