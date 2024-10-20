@@ -1,4 +1,4 @@
-from RAG.ensemble_retriever import Agent
+from RAG.retriever import Agent
 import streamlit as st
 import time
 from dotenv import load_dotenv
@@ -44,8 +44,12 @@ if prompt := st.chat_input("What is up?"):
     answer = llm.invoke({"input" : prompt}, config={"configurable": {"session_id": session_id}})["output"]
     print(answer)
 
+    # 메시지 기록에 담을 답변 내용을 생성
+    assistant_response = ""
     with st.chat_message("assistant"):
-        response = st.write(response_generator(answer))
-    
+        for word in response_generator(answer):
+            st.write(word)
+            assistant_response += word  # 각 단어를 차례대로 모아 답변 생성
+
     # 메시지 기록에 담기
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": assistant_response})
