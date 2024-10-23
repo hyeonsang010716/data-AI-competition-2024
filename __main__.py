@@ -2,7 +2,10 @@ from RAG.ensemble_retriever import Agent
 import streamlit as st
 import time
 from dotenv import load_dotenv
+import pandas as pd
 load_dotenv()
+
+
 # llm 인스턴스를 세션 상태에 저장하고 재사용
 if "llm" not in st.session_state:
     agent = Agent()
@@ -41,11 +44,24 @@ if prompt := st.chat_input("What is up?"):
 
     session_id = "user_unique_session_id"
 
-    answer = llm.invoke({"input" : prompt}, config={"configurable": {"session_id": session_id}})["output"]
-    print(answer)
+    if prompt == "/test":
+        response = st.write("test 진행 중")
+        with open("./assets/test_questions.txt", encoding="utf-8") as f:
+            questions = f.readlines()
+            questions = [q.strip() for q in questions]
+        answers = []
 
-    with st.chat_message("assistant"):
-        response = st.write(response_generator(answer))
+        for i, que in enumerate(questions):
+            answer = llm.invoke({"input" : que}, config={"configurable": {"session_id": session_id}})["output"]
+            answers.append(answer)
+
+        test_data = pd.DataFrame({"question": questions, "answer": answers})
+        test_data.to_excel(excel_writer="./assets/test.xlsx", index_label=False)
+    else:
+        answer = llm.invoke({"input" : prompt}, config={"configurable": {"session_id": session_id}})["output"]
+
+        with st.chat_message("assistant"):
+            response = st.write(response_generator(answer))
     
     # 메시지 기록에 담기
     st.session_state.messages.append({"role": "assistant", "content": response})
