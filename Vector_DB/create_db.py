@@ -1,11 +1,9 @@
 
-from langchain_ollama import OllamaEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 import os
 import pickle
 from langchain.schema import Document
-# from langchain_core.documents import Document as langchain_Document
-# from langchain.text_splitter import CharacterTextSplitter
 
 def save_documents(documents, file_path):
     with open(file_path, "wb") as file:
@@ -29,7 +27,8 @@ def load_learning_materials():
     return learning_materials
 
 def create_index():
-    embeddings =  OllamaEmbeddings(model="nomic-embed-text") # 임베딩 모델
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-large") # 임베딩 모델
+    
     directory_path = "./Vector_DB/chromadb"
     if os.path.exists(directory_path):
         print("존재하는 임베딩 세팅")
