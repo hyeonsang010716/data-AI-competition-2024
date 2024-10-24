@@ -22,7 +22,7 @@
 
 3. .env 파일 설정
     ```
-    OPENAI_API_KEY=your_api_key="your_api_key"
+    OPENAI_API_KEY="your_api_key"
 
 4. Streamlit 실행
     ```bash
