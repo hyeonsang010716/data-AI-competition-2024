@@ -14,8 +14,7 @@
 
 1. **레포지토리 클론**:
    ```bash
-   git clone https://github.com/your-username/repo-name.git
-   cd repo-name
+   git clone https://github.com/hyeonsang010716/data-AI-competition-2024.git
 
 2. 필요한 패키지 설치
     ```bash
