@@ -40,9 +40,17 @@
         요약하자면, 신도시 평준화 교육 정책은 학부모의 의견을 반영하여 신중하게 결정될 예정입니다. 
         혹시 더 궁금한 부분이 있으면 물어보세요.
 
+## 사용 예시
+![image](https://github.com/user-attachments/assets/8e447fca-8e85-4bda-80dc-277e4ddc45a6)
+
+
+
 ## 프로젝트 구조
 -  _ main__.py : streamlit을 사용한 웹 어플리케이션 메인 파일입니다.
 - assets : 국회 회의록 데이터를 가공하여 만든 total.txt 등의 데이터가 있는 디렉터리입니다.
 - RAG : Rag 시스템 구축을 위한 prompt, history, retriever 등이 담겨 있는 모듈화된 디렉토리 입니다.
 - Data_preprocessing : 데이터 전처리를 처리하는 코드들이 담겨있는 디렉토리 입니다.
 - Vector_DB, SQLite_DB : vector, sql 등 Database를 생성하고 관리하는 함수들이 담겨있습니다.
+
+## 시각화
+<img src="https://github.com/user-attachments/assets/d3682c34-8e63-4bb5-aace-28d7f52c0e61" alt="사진" width="800"/>
