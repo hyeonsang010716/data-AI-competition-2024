@@ -1,4 +1,4 @@
-from RAG.ensemble_retriever import Agent
+from RAG.retriever import Agent
 import streamlit as st
 import time
 from dotenv import load_dotenv
@@ -62,6 +62,6 @@ if prompt := st.chat_input("What is up?"):
 
         with st.chat_message("assistant"):
             response = st.write(response_generator(answer))
-    
+            
     # 메시지 기록에 담기
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": assistant_response})

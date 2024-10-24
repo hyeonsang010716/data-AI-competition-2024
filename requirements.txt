@@ -13,5 +13,6 @@ langchain_chroma
 unstructured
 langchain_ollama
 rank_bm25
+#pip install flashrank
 #magic 오류 -> pip install git+https://github.com/julian-r/python-magic.git
 #pip install -r requirements.txt
