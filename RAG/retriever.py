@@ -4,8 +4,6 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.retrievers import EnsembleRetriever
 from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers.multi_query import MultiQueryRetriever
-from langchain.retrievers.contextual_compression import ContextualCompressionRetriever
-from langchain.retrievers.document_compressors import FlashrankRerank
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.prompts import MessagesPlaceholder
@@ -113,14 +111,9 @@ class Agent:
             retrievers=[bm25_retriever, multiquery_retriever],
             weights=[0.6, 0.4],
         )
-        #리트리버 압축
-        compressor = FlashrankRerank(model="ms-marco-MultiBERT-L-12")
-        
-        compression_retriever = ContextualCompressionRetriever(
-            base_compressor=compressor, base_retriever=ensemble_retriever
-        )
+
         tool = create_retriever_tool(
-            compression_retriever,
+            ensemble_retriever,
             "Internal_Knowledge_Retriever",
             "Retrieval and Augmented Generation for MBC+ guide",
         )
