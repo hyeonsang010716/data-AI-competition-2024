@@ -54,3 +54,7 @@
 
 ## 시각화
 <img src="https://github.com/user-attachments/assets/d3682c34-8e63-4bb5-aace-28d7f52c0e61" alt="사진" width="800"/>
+
+## 시연 영상
+https://github.com/user-attachments/assets/e6391b5d-a186-4443-a1d6-6c4fbba97c63
+
